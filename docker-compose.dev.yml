@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    env_file:
+      - envs/.env
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./frontend/assets:/app/dist/frontend/assets
+    restart: always
+
+networks:
+  default:
+    external: true
+    name: shared-web

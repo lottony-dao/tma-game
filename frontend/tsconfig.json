@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es6",                  // Use "es6" or higher
+        "module": "es6",                  // Output as ES modules
+        "moduleResolution": "node",       // Use Node's module resolution
+        "outDir": "../dist/client",       // Adjust this to your build directory
+        "rootDir": "./",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "jsx": "react-jsx",
+        "lib": ["dom", "dom.iterable", "esnext"]
+    },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}

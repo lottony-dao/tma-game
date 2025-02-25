@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    env_file:
+      - envs/.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./client/assets:/app/dist/client/assets
+    restart: always
+
+networks:
+  default:
+    external: true
+    name: shared-web

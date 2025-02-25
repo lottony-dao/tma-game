@@ -1,0 +1,54 @@
+services:
+  nginx-proxy:
+    container_name: nginx-proxy
+    build:
+      context: .
+      dockerfile: ./nginx-proxy/Dockerfile
+    restart: always
+    tty: true
+    ports:
+      - 443:443
+      - 80:80
+    logging:
+      options:
+        max-size: "100m"
+        max-file: "100"
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - shared-web
+
+  nginx-proxy-letsencrypt:
+    image: nginxproxy/acme-companion:latest
+    env_file:
+      - envs/.env_letsencrypt
+    logging:
+      options:
+        max-size: "100m"
+        max-file: "100"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
+    networks:
+      - shared-web
+
+networks:
+  shared-web:
+    name: shared-web
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.167.0.0/16"
+          gateway: "192.167.0.1"
+
+volumes:
+  certs: {}
+  html: {}
+  vhost: {}
+  acme: {}
